@@ -1,8 +1,18 @@
-const ctaBtn = document.getElementById('cta-btn');
-const numeroTelefono = "521XXXXXXXXXX"; // El número del cliente con lada
+document.addEventListener('DOMContentLoaded', () => {
+    const ctaBtn = document.getElementById('cta-btn');
+    
+    // Configura aquí tu número de WhatsApp (incluye código de país)
+    const miNumero = "521XXXXXXXXXX"; 
 
-ctaBtn.addEventListener('click', () => {
-    const mensaje = encodeURIComponent("¡Hola! Vi tu página web y me gustaría hacer un pedido/cotización.");
-    window.location.href = `https://wa.me/${numeroTelefono}?text=${mensaje}`;
+    ctaBtn.addEventListener('click', () => {
+        const mensaje = encodeURIComponent("Hola Punto Nexo, me gustaría recibir información sobre sus servicios de desarrollo web.");
+        const url = `https://wa.me/${miNumero}?text=${mensaje}`;
+        
+        // Efecto visual antes de redirigir
+        ctaBtn.innerText = "Abriendo WhatsApp...";
+        setTimeout(() => {
+            window.open(url, '_blank');
+            ctaBtn.innerText = "Contactar por WhatsApp";
+        }, 800);
+    });
 });
-
