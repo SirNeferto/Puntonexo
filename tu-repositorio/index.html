@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ánimas | Tablón </title>
+    
+    <!-- Content Security Policy (CSP) - MODIFICADA PARA GITHUB PAGES -->
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: blob: https:;
+    frame-src https://open.spotify.com https://www.youtube.com;
+    connect-src 'self' https://*.github.io;">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Favicon con glow místico -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><filter id='glow'><feGaussianBlur stdDeviation='4' result='coloredBlur'/><feMerge><feMergeNode in='coloredBlur'/><feMergeNode in='SourceGraphic'/></feMerge></filter></defs><rect width='100' height='100' fill='%230a0a12'/><text y='.9em' font-size='90' fill='%239d65c9' font-family='Cinzel, serif' font-weight='bold' filter='url(%23glow)'>Á</text></svg>">
+
+</head>
+<body>
+    <nav class="board-nav">
+        <div class="board-list">
+        [ <a href="#" class="nav-link" data-board="inicio">inicio</a> ]
+    </div>
+    <div class="board-filter">
+        <span id="current-board-display">inicio</span> ▼
+    </div>
+    </nav>
+
+    <div class="container">
+        <header class="main-header">
+            <div class="logo">
+                <h1>ÁNIMA</h1>
+                <p>Vacío Digital</p>
+            </div>
+        </header>
+
+        <!-- ============================================ -->
+        <!-- BUZÓN DE SUGERENCIAS (solo visible en inicio) -->
+        <!-- ============================================ -->
+        <div id="buzon-container" class="buzon-container hidden">
+            <div class="buzon-header">
+                <h2>📬 BUZÓN DE SUGERENCIAS</h2>
+                <p>¿Quieres proponer un nuevo foro? ¿Ser admin? Escríbeme.</p>
+            </div>
+            
+            <div class="buzon-form">
+                <textarea id="buzon-mensaje" placeholder="Escribe tu mensaje aquí..." rows="4"></textarea>
+                <button id="buzon-enviar" class="btn-main">✉️ Enviar a TOTO</button>
+            </div>
+            
+            <div class="buzon-anuncios">
+                <h3>ANUNCIOS DEL CREADOR</h3>
+                <div id="anuncios-lista">
+                    <p>🔜 Próximamente: Nuevos foros</p>
+                    <p>🔜 Busco administradores</p>
+                    <p>🔜 TOTO vigila el vacío</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MODAL DE REGLAS -->
+        <!-- ============================================ -->
+        <div id="rules-modal" class="modal-overlay">
+            <div class="modal-confirm" style="max-width: 600px; width: 90%; text-align: left;">
+                <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px; font-family: 'Cinzel';">📜 REGLAS DE ÁNIMAS</h2>
+                <div style="max-height: 400px; overflow-y: auto; padding-right: 10px; margin-bottom: 20px;">
+                    <ol style="list-style: none; counter-reset: rule; padding-left: 0;">
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">01</span>
+                            <strong style="color: var(--gold);">Sé respetuoso:</strong> no te ofendas ni lastimes a otros que solo buscan pasar el rato.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">02</span>
+                            <strong style="color: var(--gold);">Sin spam:</strong> No publiques contenido repetitivo o promocional.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">03</span>
+                            <strong style="color: var(--gold);">Contenido legal:</strong> No compartas material ilegal NO CP NI GORE ni contenido sexual o intimo.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">04</span>
+                            <strong style="color: var(--gold);">Mantén el tema:</strong> Publica en el tablón correspondiente a tu contenido.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">05</span>
+                            <strong style="color: var(--gold);">Sin discriminación:</strong> No se permite racismo, sexismo, homofobia, etc.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">06</span>
+                            <strong style="color: var(--gold);">Contenido sensible:</strong> Marca adecuadamente posts con temática fuerte.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">07</span>
+                            <strong style="color: var(--gold);">No doxxing:</strong> No publiques información personal de otros no te ardas por cualquier cosa.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">08</span>
+                            <strong style="color: var(--gold);">Idioma:</strong> Principalmente español, pero otros idiomas son bienvenidos.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; border-bottom: 1px solid rgba(157,101,201,0.2); padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">09</span>
+                            <strong style="color: var(--gold);">Reporta:</strong> Si ves algo inapropiado, repórtalo.
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 35px; position: relative; counter-increment: rule; padding-bottom: 10px;">
+                            <span style="position: absolute; left: 0; color: var(--purple); font-weight: bold; font-size: 1.3rem; font-family: monospace;">10</span>
+                            <strong style="color: var(--gold);">Disfruta:</strong> Este es un espacio para compartir. ¡Sé parte!
+                        </li>
+                    </ol>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="accept-rules" class="btn-main" style="padding: 12px 40px;">ACEPTO</button>
+                    <p style="color: var(--dim); font-size: 0.7rem; margin-top: 10px;">Al continuar, aceptas seguir estas reglas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ÍNDICE DE TABLONES (solo visible en inicio) -->
+        <!-- ============================================ -->
+        <div id="board-index" class="board-index">
+            <div class="index-header">
+                <h2>¿Qué es Ánimas?</h2>
+                <p>Ánimas es un foro de imágenes donde CUALQUIERA puede publicar, comentar y compartir. Hay foros dedicados a diversos temas. No necesitas registrarte. Haz clic en un tablón y ¡anímate!</p>
+                <p>Asegúrate de familiarizarte con las <a href="#" id="show-rules-link">Reglas</a> antes de publicar.</p>
+            </div>
+
+            <!-- JAPANESE CULTURE -->
+            <div class="board-category">
+                <h3>🇯🇵 Japanese Culture</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link" data-board="anime">/anime/</a> - Anime & Manga</li>
+                    <li><a href="#" class="nav-link" data-board="cosplay">/cosplay/</a> - Cosplay & EGL</li>
+                    <li><a href="#" class="nav-link" data-board="otaku">/otaku/</a> - Otaku Culture</li>
+                    <li><a href="#" class="nav-link" data-board="vtubers">/vtubers/</a> - Virtual YouTubers</li>
+                </ul>
+            </div>
+
+            <!-- VIDEO GAMES -->
+            <div class="board-category">
+                <h3>🎮 Video Games</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link" data-board="vg">/vg/</a> - Video Games General</li>
+                    <li><a href="#" class="nav-link" data-board="retro">/retro/</a> - Retro Games</li>
+                    <li><a href="#" class="nav-link" data-board="rpg">/rpg/</a> - Video Games/RPG</li>
+                    <li><a href="#" class="nav-link" data-board="pokemon">/pokemon/</a> - Pokémon</li>
+                </ul>
+            </div>
+
+            <!-- INTERESTS -->
+            <div class="board-category">
+                <h3>🎨 Interests</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link" data-board="comics">/comics/</a> - Comics & Cartoons</li>
+                    <li><a href="#" class="nav-link" data-board="tech">/tech/</a> - Technology</li>
+                    <li><a href="#" class="nav-link" data-board="animals">/animals/</a> - Animals & Nature</li>
+                    <li><a href="#" class="nav-link" data-board="sports">/sports/</a> - Sports</li>
+                </ul>
+            </div>
+
+            <!-- CREATIVE -->
+            <div class="board-category">
+                <h3>✨ Creative</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link" data-board="photo">/photo/</a> - Photography</li>
+                    <li><a href="#" class="nav-link" data-board="food">/food/</a> - Food & Cooking</li>
+                    <li><a href="#" class="nav-link" data-board="music">/music/</a> - Music</li>
+                    <li><a href="#" class="nav-link" data-board="diy">/diy/</a> - Do-It-Yourself</li>
+                </ul>
+            </div>
+
+            <!-- OTHER -->
+            <div class="board-category">
+                <h3>🌐 Other</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link" data-board="paranormal">/paranormal/</a> - Paranormal</li>
+                    <li><a href="#" class="nav-link" data-board="advice">/advice/</a> - Advice</li>
+                    <li><a href="#" class="nav-link" data-board="news">/news/</a> - Current News</li>
+                    <li><a href="#" class="nav-link" data-board="vip">/vip/</a> - Very Important Posts</li>
+                </ul>
+            </div>
+
+            <!-- MISC -->
+            <div class="board-category">
+                <h3>🌀 Misc</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link" data-board="random">/random/</a> - Random</li>
+                    <li><a href="#" class="nav-link" data-board="pol">/pol/</a> - Politically Incorrect</li>
+                    <li><a href="#" class="nav-link" data-board="int">/int/</a> - International/Random</li>
+                    <li><a href="#" class="nav-link" data-board="s4s">/s4s/</a> - Shit 4chan Says</li>
+                </ul>
+            </div>
+
+            <!-- ADULT (CENSURADO) -->
+            <div class="board-category adult-category" style="opacity: 0.7;">
+                <h3>🔞 Adult (+18)</h3>
+                <ul class="board-list-compact">
+                    <li><a href="#" class="nav-link adult-link" data-board="hentai">/hentai/</a> - Hentai (NSFW)</li>
+                    <li><a href="#" class="nav-link adult-link" data-board="ecchi">/ecchi/</a> - Ecchi</li>
+                    <li><a href="#" class="nav-link adult-link" data-board="adultgif">/adultgif/</a> - Adult GIF</li>
+                    <li><a href="#" class="nav-link adult-link" data-board="adultcart">/adultcart/</a> - Adult Cartoons</li>
+                </ul>
+                <p style="color: #ff4d6d; font-size: 0.8rem;">🔞 Solo mayores de edad</p>
+            </div>
+
+            <!-- ESTADÍSTICAS -->
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Posts:</span>
+                        <span class="stat-value" id="total-posts">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Current Users:</span>
+                        <span class="stat-value" id="current-users">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Active Content:</span>
+                        <span class="stat-value" id="active-content">0 GB</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER LINKS -->
+            <div class="footer-links">
+                <a href="#">Home</a> •
+                <a href="#">News</a> •
+                <a href="#">Blog</a> •
+                <a href="#">FAQ</a> •
+                <a href="#" id="footer-rules-link">Rules</a> •
+                <a href="#">Support</a> •
+                <a href="#">Advertise</a> •
+                <a href="#">Press</a> •
+                <a href="#">日本語</a>
+            </div>
+
+            <div class="footer-copyright">
+                About • Feedback • Legal • Contact<br>
+                <span style="color: #9d65c9;">🟣 TOTO vigila el vacío digital 🟣</span>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ÁREA DE PUBLICACIÓN (AHORA SOLO VISIBLE EN TABLONES) -->
+        <!-- ============================================ -->
+        <section id="publish-area" class="publish-area hidden">
+            <div class="post-header-inputs">
+                <input type="text" id="author-name" placeholder="Apodo (Opcional)" maxlength="20" value="Alma">
+                <span class="anon-hint">"Alma" (se guarda automáticamente)</span>
+            </div>
+
+            <textarea id="post-content" placeholder="¿Cómo te sientes hoy?" maxlength="280"></textarea>
+            
+            <!-- Previsualización de imagen -->
+            <div id="image-preview-container" class="hidden">
+                <img id="image-preview" src="" alt="Previsualización">
+                <button type="button" id="btn-remove-image" title="Quitar imagen">✕</button>
+            </div>
+
+            <div class="publish-controls">
+                <div class="input-helpers">
+                    <label class="control-btn" for="input-image">
+                         Imagen.
+                        <input type="file" id="input-image" hidden accept="image/*">
+                    </label>
+                    <input type="text" id="input-music" placeholder="URL de Spotify o Youtube.">
+                </div>
+                <button type="button" id="btn-publish" class="btn-main">Publicar.</button>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- FEED DE POSTS (solo visible en tablones) -->
+        <!-- ============================================ -->
+        <main id="feed" class="hidden"></main>
+    </div> 
+
+    <!-- ============================================ -->
+    <!-- MODAL DE CONFIRMACIÓN PARA BORRAR -->
+    <!-- ============================================ -->
+    <div id="delete-modal" class="modal-overlay hidden">
+        <div class="modal-confirm">
+            <h3>¿Desvanecer esta publicación?</h3>
+            <p>Una vez borrado, se perdera para siempre.</p>
+            <div class="modal-buttons">
+                <button id="confirm-yes" class="btn-danger">Sí, borrar.</button>
+                <button id="confirm-no" class="btn-cancel">No, mantener.</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODAL DE RESPUESTAS (NUEVO) -->
+    <!-- ============================================ -->
+    <div id="reply-modal" class="modal-overlay hidden">
+        <div class="modal-confirm" style="max-width: 500px;">
+            <h3 style="color: var(--gold);">✎ Responder</h3>
+            <textarea id="reply-content" class="reply-textarea" maxlength="280" style="width:100%; min-height:100px; margin:20px 0; padding:15px; background:rgba(0,0,0,0.6); color:white; border:1px solid var(--purple); border-radius:10px;" placeholder="Escribe tu respuesta..."></textarea>
+            <div class="modal-buttons">
+                <button id="confirm-reply" class="btn-main">Responder</button>
+                <button id="cancel-reply" class="btn-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="music.js"></script>
+    <script src="script.js"></script>
+    <!-- Modal de TOTO (agrégalo antes de los scripts) -->
+     <div id="toto-modal" class="modal-overlay hidden">
+        <div class="modal-confirm" style="max-width: 500px; text-align: center; background: #0a0a1a; border: 3px solid #9d65c9;">
+            <div style="font-size: 80px; line-height: 1; margin-bottom: 10px; animation: totoPulse 2s infinite;" id="toto-emoji">🟣</div>
+            <div style="font-size: 60px; line-height: 1; margin-bottom: 10px;" id="toto-cara">(◣_◢)</div>
+            <h2 style="color: #d4af37; margin-bottom: 20px;" id="toto-titulo">TOTO ENOJADO</h2>
+        
+            <div style="margin: 20px 0;">
+                <input type="text" id="toto-input" placeholder="Escribe 'toto perdon'..." 
+                style="width: 100%; padding: 15px; background: #1a1a2e; color: white; border: 2px solid #9d65c9; border-radius: 8px; font-size: 16px; text-align: center;">
+            </div>
+        
+            <div id="toto-contador" style="color: #8e8eb2; font-size: 18px; margin-bottom: 15px; min-height: 30px;"></div>
+        
+            <div id="toto-tiempo" style="color: #8e8eb2; font-size: 14px;">
+                ⏳ Tiempo restante: 30 segundos
+            </div>
+        </div>
+    </div>
+    <style>
+    @keyframes totoPulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+        }
+        </style>
+<!-- Scripts -->
+<script src="music.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
